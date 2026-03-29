@@ -23,28 +23,27 @@ const regions2026 = HOLIDAYS_DATA.regional[2026];
 
 <Layout title="NZ Public Holidays 2026-2027">
   {/* Hero Section */}
-  <section class="max-w-3xl mx-auto py-8 text-center text-primary-foreground space-y-4 flex flex-col items-center justify-center p-6 bg-primary rounded-3xl shadow-xl mb-12">
+  <section class="max-w-2xl mx-auto py-6 text-center space-y-4 mb-8">
     <div class="space-y-1">
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">New Zealand Public Holidays</h1>
-      <p class="text-base opacity-90 max-w-xl mx-auto">Your complete guide to national holidays, regional anniversaries, and important dates.</p>
+      <h1 class="text-2xl md:text-3xl font-black tracking-tight">NZ Public Holidays</h1>
+      <p class="text-sm text-muted-foreground max-w-lg mx-auto">Your complete guide to national holidays and regional anniversaries.</p>
     </div>
 
     {nextH && (
-      <Card class="max-w-sm w-full border-none shadow-lg bg-card text-foreground">
-        <CardHeader class="pb-1 pt-4">
-          <CardTitle class="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground flex justify-center items-center gap-2">
-            Next Public Holiday
-          </CardTitle>
-        </CardHeader>
-        <CardContent class="text-center py-2">
-          <div class="text-3xl lg:text-4xl mb-2" role="img">{getHolidayIcon(nextH.name)}</div>
-          <h2 class="text-xl md:text-2xl font-bold mb-1">{nextH.name}</h2>
-          <p class="text-base text-primary font-semibold">{formatDateFull(nextH.effectiveDate)}</p>
-          {nextH.mondayised && <Badge variant="outline" class="mt-1 scale-90">Mondayised</Badge>}
+      <Card class="max-w-xs mx-auto border shadow-sm bg-primary/5 hover:border-primary/50 transition-colors">
+        <CardContent class="text-center py-3 px-4">
+          <div class="flex items-center justify-center gap-3">
+              <span class="text-2xl" role="img">{getHolidayIcon(nextH.name)}</span>
+              <div class="text-left">
+                  <h2 class="text-sm font-bold leading-tight">{nextH.name}</h2>
+                  <p class="text-[11px] text-primary font-bold uppercase tracking-wider">{formatDateFull(nextH.effectiveDate)}</p>
+              </div>
+          </div>
+          <div class="mt-2 pt-2 border-t border-primary/10 flex items-center justify-between text-[10px]">
+              <Badge variant="primary" soft class="px-1.5 py-0 h-4 text-[9px] uppercase font-bold">{daysAway} days to go</Badge>
+              {nextH.mondayised && <span class="text-muted-foreground italic font-medium">Mondayised</span>}
+          </div>
         </CardContent>
-        <CardFooter class="justify-center border-t py-2 bg-muted/50 rounded-b-xl">
-          <div class="text-lg font-black text-primary animate-pulse">{daysAway} days to go</div>
-        </CardFooter>
       </Card>
     )}
   </section>
