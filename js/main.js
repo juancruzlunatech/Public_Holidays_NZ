@@ -1,5 +1,8 @@
 // Main site JavaScript
 document.addEventListener("DOMContentLoaded", function () {
+  // Dark mode toggle
+  initTheme();
+
   // Mobile menu toggle
   const hamburger = document.querySelector(".hamburger");
   const navLinks = document.querySelector(".nav-links");
@@ -35,6 +38,35 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+// Theme management
+function initTheme() {
+  var saved = localStorage.getItem("theme");
+  if (!saved) {
+    saved = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  document.documentElement.setAttribute("data-theme", saved);
+  updateToggleIcon(saved);
+
+  var toggleBtn = document.querySelector(".theme-toggle");
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", function () {
+      var current = document.documentElement.getAttribute("data-theme") || "light";
+      var next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+      updateToggleIcon(next);
+    });
+  }
+}
+
+function updateToggleIcon(theme) {
+  var toggleBtn = document.querySelector(".theme-toggle");
+  if (toggleBtn) {
+    toggleBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+    toggleBtn.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  }
+}
 
 function updateCountdown() {
   const el = document.getElementById("next-holiday-countdown");
