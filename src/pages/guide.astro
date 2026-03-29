@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/starwind/card/Card.astro';
+import CardHeader from '../components/starwind/card/CardHeader.astro';
+import CardTitle from '../components/starwind/card/CardTitle.astro';
+import CardContent from '../components/starwind/card/CardContent.astro';
+import Badge from '../components/starwind/badge/Badge.astro';
+
+const sections = [
+  { id: 'mondayisation', title: '🔄 Mondayisation', icon: '🔄', content: 'As of 1 January 2014, Waitangi Day and Anzac Day became "Mondayised". This means if they fall on a Saturday or Sunday, the following Monday becomes the official day off work.' },
+  { id: 'new-years', title: '🎆 New Year\'s Day', icon: '🎆', content: 'These are always on 1 and 2 January. If one or both fall on a weekend, the holiday is observed on the next available working weekday.' },
+  { id: 'waitangi', title: '🇳🇿 Waitangi Day', icon: '🇳🇿', content: '6 February - Commemorates the signing of the Treaty of Waitangi (Tiriti o Waitangi) in 1840. Always Mondayised if on a weekend.' },
+  { id: 'easter', title: '🐣 Easter', icon: '🐣', content: 'Good Friday and Easter Monday provide two public holidays. The dates change based on the lunisolar calendar.' },
+  { id: 'matariki', title: '✨ Matariki', icon: '✨', content: 'Māori New Year - Marks the rising of the Pleiades star cluster. It always falls on a Friday in June or July, based on the Māori lunar calendar.' },
+  { id: 'labour', title: '💪 Labour Day', icon: '💪', content: 'The fourth Monday in October. Celebrates the achievements of NZ workers and the 8-hour working day movement.' },
+];
+---
+
+<Layout title="NZ Public Holiday Guide — Rules & Regional Info">
+  <div class="max-w-4xl mx-auto space-y-12 pb-20">
+    <div class="space-y-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight">Your Complete Holiday Guide</h1>
+        <p class="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">Everything you need to know about New Zealand public holidays — rules, Mondayisation, regional days, and more.</p>
+    </div>
+
+    {/* Table of Contents Bubble */}
+    <Card class="bg-muted p-4 border border-primary/20 bg-primary/5 rounded-2xl shadow-sm">
+      <CardContent class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-2 text-sm font-medium">
+        <a href="#mondayisation" class="hover:text-primary transition-colors">🔄 Mondayisation</a>
+        <a href="#new-years" class="hover:text-primary transition-colors">🎆 New Year's</a>
+        <a href="#waitangi" class="hover:text-primary transition-colors">🇳🇿 Waitangi Day</a>
+        <a href="#easter" class="hover:text-primary transition-colors">🐣 Easter</a>
+        <a href="#matariki" class="hover:text-primary transition-colors">✨ Matariki</a>
+        <a href="#labour" class="hover:text-primary transition-colors">💪 Labour Day</a>
+        <a href="#regional" class="hover:text-primary transition-colors">📍 Regional Anniversaries</a>
+        <a href="#shops" class="hover:text-primary transition-colors">🏪 Shop Closures</a>
+      </CardContent>
+    </Card>
+
+    <div class="space-y-8 prose prose-slate dark:prose-invert max-w-none">
+      {sections.map(section => (
+        <section id={section.id} class="bg-card p-6 rounded-2xl border shadow-sm scroll-mt-24 hover:border-primary/30 transition-shadow">
+          <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
+            <span>{section.icon}</span> {section.title}
+          </h2>
+          <p class="text-muted-foreground leading-relaxed">{section.content}</p>
+        </section>
+      ))}
+
+      <section id="regional" class="bg-blue-50/50 dark:bg-blue-900/10 p-8 rounded-3xl border-2 border-blue-200/50 dark:border-blue-800/30 scroll-mt-24">
+        <h2 class="text-3xl font-black mb-6 text-primary">📍 Regional Anniversary Days</h2>
+        <p class="mb-4 text-sm font-medium text-blue-800/80 dark:text-blue-200">Each province in New Zealand has its own anniversary day, celebrated typically on the Monday or Friday closest to its actual date.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border">
+            <h3 class="font-bold mb-1">Auckland</h3>
+            <p class="text-muted-foreground">Observed on the Monday closest to 29 January.</p>
+          </div>
+          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border">
+            <h3 class="font-bold mb-1">Wellington</h3>
+            <p class="text-muted-foreground">Observed on the Monday closest to 22 January.</p>
+          </div>
+          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border">
+            <h3 class="font-bold mb-1">Canterbury</h3>
+            <p class="text-muted-foreground">Observed on the second Friday after first Tuesday of Nov (Christchurch Show Day).</p>
+          </div>
+          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border">
+            <h3 class="font-bold mb-1">Southland</h3>
+            <p class="text-muted-foreground text-xs opacity-80">Celebrated on Easter Tuesday in Southland.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="shops" class="bg-card p-6 rounded-2xl border shadow-sm scroll-mt-24">
+        <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-error uppercase tracking-wider">🏪 Shop Opening Rules</h2>
+        <p class="text-muted-foreground mb-4">Most shops are required to be closed on these days:</p>
+        <div class="flex flex-wrap gap-2">
+            <Badge variant="error" soft size="lg">Good Friday</Badge>
+            <Badge variant="error" soft size="lg">Easter Sunday</Badge>
+            <Badge variant="error" soft size="lg">Christmas Day</Badge>
+            <Badge variant="error" soft size="lg">Anzac Day (until 1pm)</Badge>
+        </div>
+        <p class="mt-4 text-xs text-muted-foreground italic">Exemptions apply for essential services, restaurants and small dairies.</p>
+      </section>
+    </div>
+  </div>
+</Layout>

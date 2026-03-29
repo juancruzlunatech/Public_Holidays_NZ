@@ -1,0 +1,144 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../components/starwind/card/Card.astro';
+import CardHeader from '../../components/starwind/card/CardHeader.astro';
+import CardTitle from '../../components/starwind/card/CardTitle.astro';
+import CardContent from '../../components/starwind/card/CardContent.astro';
+import Badge from '../../components/starwind/badge/Badge.astro';
+import Table from '../../components/starwind/table/Table.astro';
+import TableHeader from '../../components/starwind/table/TableHeader.astro';
+import TableBody from '../../components/starwind/table/TableBody.astro';
+import TableRow from '../../components/starwind/table/TableRow.astro';
+import TableHead from '../../components/starwind/table/TableHead.astro';
+import TableCell from '../../components/starwind/table/TableCell.astro';
+import { HOLIDAYS_DATA, formatDate, formatDateFull, daysUntil, getHolidayIcon } from '../../lib/holidays';
+
+export function getStaticPaths() {
+  return [
+    { params: { year: '2026' } },
+    { params: { year: '2027' } },
+  ];
+}
+
+const { year } = Astro.params;
+const y = parseInt(year);
+
+const national = HOLIDAYS_DATA.national[y] || [];
+const regional = HOLIDAYS_DATA.regional[y] || [];
+const other = HOLIDAYS_DATA.other[y] || [];
+---
+
+<Layout title={`NZ Public Holidays ${year}`}>
+  <div class="space-y-12">
+    <div class="text-center space-y-4">
+        <h1 class="text-2xl md:text-5xl font-black">NZ Public Holidays {year}</h1>
+        <p class="text-muted-foreground text-lg">Every national holiday, provincial anniversary, and major observance in Aotearoa New Zealand during {year}.</p>
+    </div>
+
+    <section>
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">🏛️ National Holidays — {year}</h2>
+      <Card class="overflow-hidden">
+        <div class="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead class="w-12 text-center"></TableHead>
+                <TableHead>Holiday</TableHead>
+                <TableHead>Actual Date</TableHead>
+                <TableHead>Day</TableHead>
+                <TableHead>Observed</TableHead>
+                <TableHead class="text-right">Today's Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {national.map((h) => {
+                const days = daysUntil(h.mondayised || h.date);
+                const isPast = days < 0;
+                return (
+                  <TableRow class={isPast ? "opacity-50" : ""}>
+                    <TableCell class="text-center text-xl">{getHolidayIcon(h.name)}</TableCell>
+                    <TableCell class="font-bold">{h.name}</TableCell>
+                    <TableCell>{formatDate(h.date)}</TableCell>
+                    <TableCell>{h.day}</TableCell>
+                    <TableCell>{h.mondayised ? formatDateFull(h.mondayised) : 'Standard'}</TableCell>
+                    <TableCell class="text-right">
+                      {isPast ? <Badge variant="secondary">Done</Badge> : 
+                       days === 0 ? <Badge variant="error">Today!</Badge> : 
+                       <Badge variant="primary" soft>{days} days to go</Badge>}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </div>
+      </Card>
+    </section>
+
+    <section>
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">📍 Regional Anniversary Days — {year}</h2>
+        <Card class="overflow-hidden bg-muted/20 border-muted">
+          <div class="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Region</TableHead>
+                  <TableHead>Holiday Name</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Day</TableHead>
+                  <TableHead class="text-right">Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {regional.map((h) => {
+                  const days = daysUntil(h.date);
+                  const isPast = days < 0;
+                  return (
+                    <TableRow class={isPast ? "opacity-50" : ""}>
+                      <TableCell class="font-semibold text-primary">{h.region}</TableCell>
+                      <TableCell>{h.name}</TableCell>
+                      <TableCell>{formatDate(h.date)}</TableCell>
+                      <TableCell>{h.day}</TableCell>
+                      <TableCell class="text-right">
+                        {isPast ? <Badge variant="secondary" outline>Past</Badge> : 
+                         <Badge variant="secondary" soft>{days} days away</Badge>}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        </Card>
+      </section>
+
+      {other.length > 0 && (
+        <section>
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">📋 Other Notable Dates — {year}</h2>
+            <Card class="overflow-hidden border-dashed border-2">
+              <div class="overflow-x-auto">
+                <Table>
+                  <TableBody>
+                    {other.map((h) => {
+                      const days = daysUntil(h.date);
+                      const isPast = days < 0;
+                      return (
+                        <TableRow class={isPast ? "opacity-30" : ""}>
+                          <TableCell class="w-12 text-center text-xl">{getHolidayIcon(h.name)}</TableCell>
+                          <TableCell class="font-medium">{h.name}</TableCell>
+                          <TableCell>{formatDateFull(h.date)}</TableCell>
+                          <TableCell>{h.day}</TableCell>
+                          <TableCell class="text-right">
+                            {isPast ? 'Past' : `${days} d`}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+            </Card>
+          </section>
+      )}
+  </div>
+</Layout>

@@ -1,0 +1,166 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/starwind/button/Button.astro';
+import Card from '../components/starwind/card/Card.astro';
+import CardHeader from '../components/starwind/card/CardHeader.astro';
+import CardTitle from '../components/starwind/card/CardTitle.astro';
+import CardContent from '../components/starwind/card/CardContent.astro';
+import CardFooter from '../components/starwind/card/CardFooter.astro';
+import Badge from '../components/starwind/badge/Badge.astro';
+import Table from '../components/starwind/table/Table.astro';
+import TableHeader from '../components/starwind/table/TableHeader.astro';
+import TableBody from '../components/starwind/table/TableBody.astro';
+import TableRow from '../components/starwind/table/TableRow.astro';
+import TableHead from '../components/starwind/table/TableHead.astro';
+import TableCell from '../components/starwind/table/TableCell.astro';
+import { HOLIDAYS_DATA, getNextHoliday, formatDate, formatDateFull, daysUntil, getHolidayIcon } from '../lib/holidays';
+
+const nextH = getNextHoliday(2026); // Defaulting to 2026 since it's most relevant
+const daysAway = nextH ? daysUntil(nextH.effectiveDate) : null;
+const holidays2026 = HOLIDAYS_DATA.national[2026];
+const regions2026 = HOLIDAYS_DATA.regional[2026];
+---
+
+<Layout title="NZ Public Holidays 2026-2027">
+  {/* Hero Section */}
+  <section class="max-w-4xl mx-auto py-12 text-center text-primary-foreground space-y-6 flex flex-col items-center justify-center p-8 bg-primary rounded-3xl shadow-2xl mb-12">
+    <div class="space-y-2">
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">New Zealand Public Holidays</h1>
+      <p class="text-lg opacity-90 max-w-2xl mx-auto">Your complete guide to national holidays, regional anniversary days, and important dates across Aotearoa New Zealand.</p>
+    </div>
+
+    {nextH && (
+      <Card class="max-w-md w-full border-none shadow-lg bg-card text-foreground">
+        <CardHeader class="pb-2">
+          <CardTitle class="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex justify-center items-center gap-2">
+            Next Public Holiday
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="text-center py-4">
+          <div class="text-4xl lg:text-5xl mb-4" role="img">{getHolidayIcon(nextH.name)}</div>
+          <h2 class="text-2xl md:text-3xl font-bold mb-2">{nextH.name}</h2>
+          <p class="text-lg text-primary font-medium">{formatDateFull(nextH.effectiveDate)}</p>
+          {nextH.mondayised && <Badge variant="outline" class="mt-2">Mondayised observed on {formatDate(nextH.mondayised)}</Badge>}
+        </CardContent>
+        <CardFooter class="justify-center border-t py-4 bg-muted/50 rounded-b-xl">
+          <div class="text-2xl font-black text-primary animate-pulse">{daysAway} days to go</div>
+        </CardFooter>
+      </Card>
+    )}
+  </section>
+
+  {/* Fast Stats */}
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+    <Card class="p-6 text-center border-none bg-muted/30">
+        <div class="text-3xl font-black mb-1">11</div>
+        <p class="text-xs font-semibold text-muted-foreground uppercase">National Holidays</p>
+    </Card>
+    <Card class="p-6 text-center border-none bg-muted/30">
+        <div class="text-3xl font-black mb-1">12</div>
+        <p class="text-xs font-semibold text-muted-foreground uppercase">Regional Anniversaries</p>
+    </Card>
+    <Card class="p-6 text-center border-none bg-muted/30">
+        <div class="text-3xl font-black mb-1">2014</div>
+        <p class="text-xs font-semibold text-muted-foreground uppercase">Mondayisation Law</p>
+    </Card>
+    <Card class="p-6 text-center border-none bg-muted/30">
+        <div class="text-3xl font-black mb-1">2022</div>
+        <p class="text-xs font-semibold text-muted-foreground uppercase">Matariki Introduced</p>
+    </Card>
+  </div>
+
+  {/* Year Navigation */}
+  <div class="flex flex-wrap gap-2 mb-8 justify-center">
+    <Button as="a" href={`${import.meta.env.BASE_URL}/holidays/2026`} variant="primary" size="lg" class="shadow-md">
+      View All 2026 Holidays
+    </Button>
+    <Button as="a" href={`${import.meta.env.BASE_URL}/holidays/2027`} variant="secondary" size="lg" class="shadow-md">
+      View All 2027 Holidays
+    </Button>
+    <Button as="a" href={`${import.meta.env.BASE_URL}/guide`} variant="outline" size="lg">
+      Detailed Rules Guide
+    </Button>
+  </div>
+
+  {/* Summary Listing */}
+  <section class="mb-12">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-3xl font-bold flex items-center gap-2">
+        <span class="text-2xl">🏛️</span> 
+        National Public Holidays 2026
+      </h2>
+      <Badge size="lg" class="hidden sm:inline-flex">2026 Overview</Badge>
+    </div>
+    
+    <Card class="overflow-hidden border shadow-sm">
+      <div class="overflow-x-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead class="w-12 text-center">#</TableHead>
+              <TableHead>Holiday</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Day</TableHead>
+              <TableHead class="text-right">Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {holidays2026.map((h, i) => {
+              const days = daysUntil(h.mondayised || h.date);
+              const isPast = days < 0;
+              const isToday = days === 0;
+              
+              return (
+                <TableRow class={isPast ? "opacity-50 grayscale select-none" : ""}>
+                  <TableCell class="text-center text-lg">{getHolidayIcon(h.name)}</TableCell>
+                  <TableCell class="font-semibold">{h.name}</TableCell>
+                  <TableCell>{formatDate(h.date)}</TableCell>
+                  <TableCell>{h.day}</TableCell>
+                  <TableCell class="text-right">
+                    {isPast ? <Badge variant="secondary">Past</Badge> : 
+                     isToday ? <Badge variant="error" class="animate-bounce">Today!</Badge> : 
+                     <Badge variant="primary" soft>{days} days away</Badge>}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
+    </Card>
+  </section>
+
+  {/* Information Quick-Links */}
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <Card variant="outline" class="hover:border-primary transition-colors cursor-pointer group">
+      <CardHeader>
+        <CardTitle class="flex items-center gap-2 group-hover:text-primary transition-colors">
+            <span>🔄</span> Mondayisation
+        </CardTitle>
+      </CardHeader>
+      <CardContent class="text-sm text-muted-foreground leading-relaxed">
+        Waitangi and Anzac Days move to Monday if on a weekend.
+      </CardContent>
+    </Card>
+    <Card variant="outline" class="hover:border-primary transition-colors cursor-pointer group">
+      <CardHeader>
+        <CardTitle class="flex items-center gap-2 group-hover:text-primary transition-colors">
+            <span>🏪</span> Shop Rules
+        </CardTitle>
+      </CardHeader>
+      <CardContent class="text-sm text-muted-foreground leading-relaxed">
+        Understand when shops must close on public holidays.
+      </CardContent>
+    </Card>
+    <Card variant="outline" class="hover:border-primary transition-colors cursor-pointer group">
+      <CardHeader>
+        <CardTitle class="flex items-center gap-2 group-hover:text-primary transition-colors">
+            <span>📍</span> Regional Days
+        </CardTitle>
+      </CardHeader>
+      <CardContent class="text-sm text-muted-foreground leading-relaxed">
+        Your specific day off depends on which province you work in.
+      </CardContent>
+    </Card>
+  </div>
+</Layout>

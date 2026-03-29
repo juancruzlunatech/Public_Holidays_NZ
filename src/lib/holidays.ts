@@ -1,10 +1,19 @@
-// NZ Public Holidays Data
-// Source: New Zealand government - Employment New Zealand
-// https://www.employment.govt.nz/leave-and-holidays/public-holidays/
+export interface Holiday {
+  name: string;
+  date: string;
+  day: string;
+  type: 'national' | 'regional' | 'observance';
+  region?: string;
+  mondayised?: string;
+}
 
-const HOLIDAYS_DATA = {
+export const HOLIDAYS_DATA: {
+  national: Record<number, Holiday[]>;
+  regional: Record<number, Holiday[]>;
+  other: Record<number, Holiday[]>;
+  descriptions: Record<string, string>;
+} = {
   national: {
-
     2026: [
       { name: "New Year's Day", date: "2026-01-01", day: "Thursday", type: "national" },
       { name: "Day after New Year's Day", date: "2026-01-02", day: "Friday", type: "national" },
@@ -33,38 +42,36 @@ const HOLIDAYS_DATA = {
     ],
   },
   regional: {
-
     2026: [
-      { name: "Wellington Anniversary", date: "2026-01-19", day: "Monday", region: "Wellington" },
-      { name: "Auckland Anniversary", date: "2026-01-26", day: "Monday", region: "Auckland" },
-      { name: "Nelson Anniversary", date: "2026-02-02", day: "Monday", region: "Nelson" },
-      { name: "Taranaki Anniversary", date: "2026-03-09", day: "Monday", region: "Taranaki" },
-      { name: "Otago Anniversary", date: "2026-03-23", day: "Monday", region: "Otago" },
-      { name: "Southland Anniversary", date: "2026-04-07", day: "Tuesday", region: "Southland" },
-      { name: "South Canterbury Anniversary", date: "2026-09-28", day: "Monday", region: "South Canterbury" },
-      { name: "Hawke's Bay Anniversary", date: "2026-10-23", day: "Friday", region: "Hawke's Bay" },
-      { name: "Marlborough Anniversary", date: "2026-11-02", day: "Monday", region: "Marlborough" },
-      { name: "Canterbury Anniversary", date: "2026-11-13", day: "Friday", region: "Canterbury" },
-      { name: "Chatham Islands Anniversary", date: "2026-11-30", day: "Monday", region: "Chatham Islands" },
-      { name: "Westland Anniversary", date: "2026-11-30", day: "Monday", region: "Westland" },
+      { name: "Wellington Anniversary", date: "2026-01-19", day: "Monday", type: "regional", region: "Wellington" },
+      { name: "Auckland Anniversary", date: "2026-01-26", day: "Monday", type: "regional", region: "Auckland" },
+      { name: "Nelson Anniversary", date: "2026-02-02", day: "Monday", type: "regional", region: "Nelson" },
+      { name: "Taranaki Anniversary", date: "2026-03-09", day: "Monday", type: "regional", region: "Taranaki" },
+      { name: "Otago Anniversary", date: "2026-03-23", day: "Monday", type: "regional", region: "Otago" },
+      { name: "Southland Anniversary", date: "2026-04-07", day: "Tuesday", type: "regional", region: "Southland" },
+      { name: "South Canterbury Anniversary", date: "2026-09-28", day: "Monday", type: "regional", region: "South Canterbury" },
+      { name: "Hawke's Bay Anniversary", date: "2026-10-23", day: "Friday", type: "regional", region: "Hawke's Bay" },
+      { name: "Marlborough Anniversary", date: "2026-11-02", day: "Monday", type: "regional", region: "Marlborough" },
+      { name: "Canterbury Anniversary", date: "2026-11-13", day: "Friday", type: "regional", region: "Canterbury" },
+      { name: "Chatham Islands Anniversary", date: "2026-11-30", day: "Monday", type: "regional", region: "Chatham Islands" },
+      { name: "Westland Anniversary", date: "2026-11-30", day: "Monday", type: "regional", region: "Westland" },
     ],
     2027: [
-      { name: "Wellington Anniversary", date: "2027-01-25", day: "Monday", region: "Wellington" },
-      { name: "Auckland Anniversary", date: "2027-02-01", day: "Monday", region: "Auckland" },
-      { name: "Nelson Anniversary", date: "2027-02-01", day: "Monday", region: "Nelson" },
-      { name: "Taranaki Anniversary", date: "2027-03-08", day: "Monday", region: "Taranaki" },
-      { name: "Otago Anniversary", date: "2027-03-22", day: "Monday", region: "Otago" },
-      { name: "Southland Anniversary", date: "2027-03-30", day: "Tuesday", region: "Southland" },
-      { name: "South Canterbury Anniversary", date: "2027-09-27", day: "Monday", region: "South Canterbury" },
-      { name: "Hawke's Bay Anniversary", date: "2027-10-22", day: "Friday", region: "Hawke's Bay" },
-      { name: "Marlborough Anniversary", date: "2027-11-01", day: "Monday", region: "Marlborough" },
-      { name: "Canterbury Anniversary", date: "2027-11-12", day: "Friday", region: "Canterbury" },
-      { name: "Chatham Islands Anniversary", date: "2027-11-29", day: "Monday", region: "Chatham Islands" },
-      { name: "Westland Anniversary", date: "2027-11-29", day: "Monday", region: "Westland" },
+      { name: "Wellington Anniversary", date: "2027-01-25", day: "Monday", type: "regional", region: "Wellington" },
+      { name: "Auckland Anniversary", date: "2027-02-01", day: "Monday", type: "regional", region: "Auckland" },
+      { name: "Nelson Anniversary", date: "2027-02-01", day: "Monday", type: "regional", region: "Nelson" },
+      { name: "Taranaki Anniversary", date: "2027-03-08", day: "Monday", type: "regional", region: "Taranaki" },
+      { name: "Otago Anniversary", date: "2027-03-22", day: "Monday", type: "regional", region: "Otago" },
+      { name: "Southland Anniversary", date: "2027-03-30", day: "Tuesday", type: "regional", region: "Southland" },
+      { name: "South Canterbury Anniversary", date: "2027-09-27", day: "Monday", type: "regional", region: "South Canterbury" },
+      { name: "Hawke's Bay Anniversary", date: "2027-10-22", day: "Friday", type: "regional", region: "Hawke's Bay" },
+      { name: "Marlborough Anniversary", date: "2027-11-01", day: "Monday", type: "regional", region: "Marlborough" },
+      { name: "Canterbury Anniversary", date: "2027-11-12", day: "Friday", type: "regional", region: "Canterbury" },
+      { name: "Chatham Islands Anniversary", date: "2027-11-29", day: "Monday", type: "regional", region: "Chatham Islands" },
+      { name: "Westland Anniversary", date: "2027-11-29", day: "Monday", type: "regional", region: "Westland" },
     ],
   },
   other: {
-
     2026: [
       { name: "Daylight Saving ends", date: "2026-04-05", day: "Sunday", type: "observance" },
       { name: "Easter Tuesday (Education sector)", date: "2026-04-07", day: "Tuesday", type: "observance" },
@@ -92,8 +99,7 @@ const HOLIDAYS_DATA = {
   },
 };
 
-// Holiday emoji mapping
-const HOLIDAY_ICONS = {
+export const HOLIDAY_ICONS: Record<string, string> = {
   "New Year's Day": "🎆",
   "Day after New Year's Day": "🎊",
   "Waitangi Day": "🇳🇿",
@@ -110,33 +116,33 @@ const HOLIDAY_ICONS = {
   "Daylight Saving starts": "🕐",
 };
 
-function getHolidayIcon(name) {
+export function getHolidayIcon(name: string) {
   if (HOLIDAY_ICONS[name]) return HOLIDAY_ICONS[name];
   if (name.includes("Anniversary")) return "🏛️";
   return "📅";
 }
 
-function formatDate(dateStr) {
+export function formatDate(dateStr: string) {
   const date = new Date(dateStr + "T00:00:00");
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   return `${months[date.getMonth()]} ${date.getDate()}`;
 }
 
-function formatDateFull(dateStr) {
+export function formatDateFull(dateStr: string) {
   const date = new Date(dateStr + "T00:00:00");
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
-function daysUntil(dateStr) {
+export function daysUntil(dateStr: string) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const holiday = new Date(dateStr + "T00:00:00");
-  const diff = Math.ceil((holiday - today) / (1000 * 60 * 60 * 24));
+  const diff = Math.ceil((holiday.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
   return diff;
 }
 
-function getNextHoliday(year) {
+export function getNextHoliday(year: number) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const allNational = HOLIDAYS_DATA.national[year] || [];
@@ -147,13 +153,4 @@ function getNextHoliday(year) {
     }
   }
   return null;
-}
-
-function getStatusBadge(dateStr) {
-  const days = daysUntil(dateStr);
-  if (days < 0) return '<span class="badge badge-past">Past</span>';
-  if (days === 0) return '<span class="badge badge-today">Today!</span>';
-  if (days <= 7) return `<span class="badge badge-soon">${days} day${days > 1 ? 's' : ''} away</span>`;
-  if (days <= 30) return `<span class="badge badge-upcoming">${days} days away</span>`;
-  return `<span class="badge badge-future">${days} days away</span>`;
 }

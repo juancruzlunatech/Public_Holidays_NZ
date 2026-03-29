@@ -1,43 +1,43 @@
-# 🇳🇿 NZ Public Holidays
+# Astro Starter Kit: Minimal
 
-Your complete guide to public holidays in Aotearoa New Zealand.
+```sh
+npm create astro@latest -- --template minimal
+```
 
-🌐 **Live site:** [https://juancruzlunatech.github.io/Public_Holidays_NZ/](https://juancruzlunatech.github.io/Public_Holidays_NZ/)
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-## Features
+## 🚀 Project Structure
 
-- **National holidays** for 2025, 2026, and 2027
-- **Regional anniversary days** for all 12 provinces
-- **Regional filter** — quickly find your region's holiday
-- **Live countdown** to the next public holiday
-- **Mondayisation indicators** — see which holidays are transferred
-- **Past/upcoming badges** — see at a glance which holidays have passed
-- **Comprehensive guide** — Mondayisation rules, shop closures, Easter rules, and more
-- **SEO optimized** — structured data, meta tags, sitemap
-- **Mobile responsive** — works great on all devices
-- **Zero dependencies** — pure HTML/CSS/JS, fast loading
+Inside of your Astro project, you'll see the following folders and files:
 
-## Pages
+```text
+/
+├── public/
+├── src/
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
 
-| Page | Description |
-|------|-------------|
-| Home | Overview with 2026 holidays and quick facts |
-| 2025 | All public holidays for 2025 |
-| 2026 | All public holidays for 2026 (current year) |
-| 2027 | All public holidays for 2027 |
-| Guide | Complete guide to NZ holiday rules |
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-## Deployment
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-The site automatically deploys to GitHub Pages via GitHub Actions on every push to `main`.
+Any static assets, like images, can be placed in the `public/` directory.
 
-### Manual setup
+## 🧞 Commands
 
-1. Go to your repo **Settings → Pages**
-2. Under **Source**, select **GitHub Actions**
-3. Push to `main` — the workflow will deploy automatically
+All commands are run from the root of the project, from a terminal:
 
-## Data Sources
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-- [Employment New Zealand — Public Holidays](https://www.employment.govt.nz/leave-and-holidays/public-holidays/)
-- [NZ Government — Public holidays and work](https://www.govt.nz/browse/work/public-holidays-and-work/)
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
