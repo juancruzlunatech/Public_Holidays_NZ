@@ -7,20 +7,41 @@ import CardContent from '../components/starwind/card/CardContent.astro';
 import Badge from '../components/starwind/badge/Badge.astro';
 
 const sections = [
-  { id: 'mondayisation', title: '🔄 Mondayisation', icon: '🔄', content: 'As of 1 January 2014, Waitangi Day and Anzac Day became "Mondayised". This means if they fall on a Saturday or Sunday, the following Monday becomes the official day off work.' },
-  { id: 'new-years', title: '🎆 New Year\'s Day', icon: '🎆', content: 'These are always on 1 and 2 January. If one or both fall on a weekend, the holiday is observed on the next available working weekday.' },
-  { id: 'waitangi', title: '🇳🇿 Waitangi Day', icon: '🇳🇿', content: '6 February - Commemorates the signing of the Treaty of Waitangi (Tiriti o Waitangi) in 1840. Always Mondayised if on a weekend.' },
-  { id: 'easter', title: '🐣 Easter', icon: '🐣', content: 'Good Friday and Easter Monday provide two public holidays. The dates change based on the lunisolar calendar.' },
-  { id: 'matariki', title: '✨ Matariki', icon: '✨', content: 'Māori New Year - Marks the rising of the Pleiades star cluster. It always falls on a Friday in June or July, based on the Māori lunar calendar.' },
-  { id: 'labour', title: '💪 Labour Day', icon: '💪', content: 'The fourth Monday in October. Celebrates the achievements of NZ workers and the 8-hour working day movement.' },
+  { id: 'mondayisation', title: '🔄 Mondayisation', icon: '🔄', content: 'As of 1 January 2014, Waitangi Day and Anzac Day became "Mondayised". This means if they fall on a Saturday or Sunday, the following Monday becomes the official day off work. This law ensures that NZ workers don\'t lose a public holiday just because it falls on a weekend.' },
+  { id: 'new-years', title: '🎆 New Year\'s Day', icon: '🎆', content: 'These are always on 1 and 2 January. If one or both fall on a weekend, the holiday is observed on the next available working weekday. New Year\'s Day and Day after New Year\'s Day are the first two national holidays of the calendar year.' },
+  { id: 'waitangi', title: '🇳🇿 Waitangi Day', icon: '🇳🇿', content: '6 February - Commemorates the signing of the Treaty of Waitangi (Tiriti o Waitangi) in 1840. Always Mondayised if on a weekend. It is considered the national day of New Zealand.' },
+  { id: 'easter', title: '🐣 Easter', icon: '🐣', content: 'Good Friday and Easter Monday provide two public holidays. The dates change based on the lunisolar calendar. Good Friday is one of the few days with restricted shop opening hours in Aotearoa.' },
+  { id: 'matariki', title: '✨ Matariki', icon: '✨', content: 'Māori New Year - Marks the rising of the Pleiades star cluster. It always falls on a Friday in June or July, based on the Māori lunar calendar. It became an official public holiday in 2022.' },
+  { id: 'labour', title: '💪 Labour Day', icon: '💪', content: 'The fourth Monday in October. Celebrates the achievements of NZ workers and the 8-hour working day movement, which started in Wellington in 1840.' },
 ];
+
+const faqs = [
+  { q: "When is the next public holiday in NZ?", a: "The next holiday depends on the current date, but national holidays include New Year's, Waitangi Day, Easter, ANZAC Day, Matariki, King's Birthday, Labour Day, and Christmas." },
+  { q: "What is Mondayisation in New Zealand?", a: "Mondayisation occurs when a public holiday falls on a Saturday or Sunday and is moved to the following Monday (or Tuesday) for workers who don't normally work on weekends." },
+  { q: "Are shops open on Good Friday in NZ?", a: "Most shops must remain closed on Good Friday, Easter Sunday, and Christmas Day, with some exceptions for essential services like pharmacies and dairies." }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(f => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": f.a
+    }
+  }))
+};
 ---
 
-<Layout title="NZ Public Holiday Guide — Rules & Regional Info">
+<Layout title="NZ Public Holiday Guide — Rules & Regional Info" description="Learn about New Zealand public holiday rules, including Mondayisation, regional anniversary days, and shop closure laws for 2026-2027.">
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  
   <div class="max-w-4xl mx-auto space-y-12 pb-20">
     <div class="space-y-4 text-center">
         <h1 class="text-4xl md:text-5xl font-black tracking-tight">Your Complete Holiday Guide</h1>
-        <p class="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">Everything you need to know about New Zealand public holidays — rules, Mondayisation, regional days, and more.</p>
+        <p class="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">Everything you need to know about New Zealand public holidays — rules, Mondayisation, regional days, and more. Updated for 2026-2027.</p>
     </div>
 
     {/* Table of Contents Bubble */}
@@ -49,38 +70,52 @@ const sections = [
 
       <section id="regional" class="bg-blue-50/50 dark:bg-blue-900/10 p-8 rounded-3xl border-2 border-blue-200/50 dark:border-blue-800/30 scroll-mt-24">
         <h2 class="text-3xl font-black mb-6 text-primary">📍 Regional Anniversary Days</h2>
-        <p class="mb-4 text-sm font-medium text-blue-800/80 dark:text-blue-200">Each province in New Zealand has its own anniversary day, celebrated typically on the Monday or Friday closest to its actual date.</p>
+        <p class="mb-4 text-sm font-medium text-blue-800/80 dark:text-blue-200">Each province in New Zealand has its own anniversary day, celebrated typically on the Monday or Friday closest to its actual date. These are regional specific holidays and only applies to workers in that specific province.</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border">
-            <h3 class="font-bold mb-1">Auckland</h3>
+          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border group hover:border-primary transition-colors">
+            <h3 class="font-bold mb-1">Auckland Province</h3>
             <p class="text-muted-foreground">Observed on the Monday closest to 29 January.</p>
           </div>
-          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border">
-            <h3 class="font-bold mb-1">Wellington</h3>
+          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border group hover:border-primary transition-colors">
+            <h3 class="font-bold mb-1">Wellington Province</h3>
             <p class="text-muted-foreground">Observed on the Monday closest to 22 January.</p>
           </div>
-          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border">
+          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border group hover:border-primary transition-colors">
             <h3 class="font-bold mb-1">Canterbury</h3>
             <p class="text-muted-foreground">Observed on the second Friday after first Tuesday of Nov (Christchurch Show Day).</p>
           </div>
-          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border">
+          <div class="p-4 bg-white dark:bg-neutral-800 rounded-xl border group hover:border-primary transition-colors">
             <h3 class="font-bold mb-1">Southland</h3>
-            <p class="text-muted-foreground text-xs opacity-80">Celebrated on Easter Tuesday in Southland.</p>
+            <p class="text-muted-foreground text-xs opacity-80">Celebrated on Easter Tuesday in Southland province.</p>
           </div>
         </div>
       </section>
 
       <section id="shops" class="bg-card p-6 rounded-2xl border shadow-sm scroll-mt-24">
         <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-error uppercase tracking-wider">🏪 Shop Opening Rules</h2>
-        <p class="text-muted-foreground mb-4">Most shops are required to be closed on these days:</p>
+        <p class="text-muted-foreground mb-4 leading-relaxed">In New Zealand, there are strict rules for trading on certain public holidays. Most retail shops must remain closed until 1pm on ANZAC Day and all day on Good Friday, Easter Sunday, and Christmas Day.</p>
         <div class="flex flex-wrap gap-2">
             <Badge variant="error" soft size="lg">Good Friday</Badge>
             <Badge variant="error" soft size="lg">Easter Sunday</Badge>
             <Badge variant="error" soft size="lg">Christmas Day</Badge>
             <Badge variant="error" soft size="lg">Anzac Day (until 1pm)</Badge>
         </div>
-        <p class="mt-4 text-xs text-muted-foreground italic">Exemptions apply for essential services, restaurants and small dairies.</p>
+        <p class="mt-4 text-[10px] text-muted-foreground italic bg-muted p-2 rounded">Exemptions exist for pharmacies, service stations, dairies, and restaurants in some specific areas or types of business.</p>
       </section>
+
+      {/* FAQ Visual Section */}
+      <section class="bg-muted/20 p-8 rounded-3xl border border-dashed">
+        <h2 class="text-2xl font-black mb-8 text-center uppercase tracking-widest text-primary/80">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+            {faqs.map(f => (
+                <div class="bg-card p-4 rounded-xl border shadow-sm">
+                    <h3 class="font-black text-sm mb-2 text-primary">Q: {f.q}</h3>
+                    <p class="text-muted-foreground text-sm">{f.a}</p>
+                </div>
+            ))}
+        </div>
+      </section>
+
     </div>
   </div>
 </Layout>
