@@ -3,8 +3,8 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://juancruzlunatech.github.io',
-  base: '/Public_Holidays_NZ',
+  site: 'https://nzpublicholidays.com',
+  base: '/',
   vite: {
     plugins: [tailwindcss()]
   }
