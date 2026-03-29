@@ -10,77 +10,142 @@ import TableHead from '../components/starwind/table/TableHead.astro';
 import TableCell from '../components/starwind/table/TableCell.astro';
 import { HOLIDAYS_DATA, formatDateFull, daysUntil, getHolidayIcon } from '../lib/holidays';
 
-// Flatten and Sort All Holidays
-const allHolidays = [
-  ...HOLIDAYS_DATA.national[2026].map(h => ({ ...h, year: 2026, category: 'National' })),
-  ...HOLIDAYS_DATA.regional[2026].map(h => ({ ...h, year: 2026, category: 'Regional' })),
-  ...HOLIDAYS_DATA.national[2027].map(h => ({ ...h, year: 2027, category: 'National' })),
-  ...HOLIDAYS_DATA.regional[2027].map(h => ({ ...h, year: 2027, category: 'Regional' })),
+const holidays2026 = [
+  ...HOLIDAYS_DATA.national[2026].map(h => ({ ...h, year: 2026 })),
+  ...HOLIDAYS_DATA.regional[2026].map(h => ({ ...h, year: 2026 })),
+].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+const holidays2027 = [
+  ...HOLIDAYS_DATA.national[2027].map(h => ({ ...h, year: 2027 })),
+  ...HOLIDAYS_DATA.regional[2027].map(h => ({ ...h, year: 2027 })),
 ].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
 ---
 
-<Layout title="NZ Public Holidays 2026-2027 Full Listing">
+<Layout title="NZ Public Holidays 2026-2027 Listing">
   <div class="max-w-5xl mx-auto space-y-6">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4">
         <div>
             <h1 class="text-3xl font-black tracking-tight flex items-center gap-3">
-                <span class="text-primary">🇳🇿</span> NZ Public Holidays 2026-2027
+                <span class="text-primary">🇳🇿</span> NZ Public Holidays
             </h1>
-            <p class="text-muted-foreground text-sm">Combined National & Regional anniversary days for the next two years.</p>
+            <p class="text-muted-foreground text-sm uppercase font-bold tracking-[0.2em] mt-1">Full 2026 & 2027 Calendar</p>
         </div>
-        <div class="flex gap-2">
-            <Badge variant="primary" soft>2026</Badge>
-            <Badge variant="secondary" soft>2027</Badge>
+        <div class="flex gap-4 text-xs font-bold uppercase tracking-widest bg-muted/30 p-2 px-4 rounded-full border">
+            <span class="flex items-center gap-2 text-primary">● National</span>
+            <span class="flex items-center gap-2 text-info">● Regional</span>
         </div>
     </div>
 
-    <Card class="overflow-hidden border shadow-sm">
+    <Card class="overflow-hidden border shadow-lg">
       <div class="overflow-x-auto">
         <Table>
-          <TableHeader class="bg-muted/50">
+          <TableHeader class="bg-muted/80">
             <TableRow>
-              <TableHead class="w-12 text-center">Icon</TableHead>
-              <TableHead>Holiday</TableHead>
+              <TableHead class="w-12 text-center text-[10px] uppercase font-black">Type</TableHead>
+              <TableHead class="px-6">Holiday Name</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Day</TableHead>
-              <TableHead>Region / Type</TableHead>
+              <TableHead>Target Area</TableHead>
               <TableHead class="text-right">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {allHolidays.map((h) => {
+            {/* 2026 Section */}
+            <TableRow class="bg-primary/5 hover:bg-primary/5 select-none">
+                <TableCell colspan="6" class="py-2 px-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl font-black text-primary">2026</span>
+                        <div class="h-[1px] flex-1 bg-primary/20"></div>
+                        <Badge variant="primary" size="sm" class="font-black">YEAR START</Badge>
+                    </div>
+                </TableCell>
+            </TableRow>
+            {holidays2026.map((h) => {
               const dateToCompare = h.mondayised || h.date;
               const days = daysUntil(dateToCompare);
               const isPast = days < 0;
               const isToday = days === 0;
-              const is2027 = h.year === 2027;
 
               return (
-                <TableRow class={`${isPast ? "opacity-40 grayscale bg-muted/20" : ""} ${is2027 ? "border-l-4 border-l-secondary" : "border-l-4 border-l-primary"}`}>
-                  <TableCell class="text-center text-xl">{getHolidayIcon(h.name)}</TableCell>
-                  <TableCell>
-                      <div class="flex flex-col">
-                          <span class="font-bold">{h.name}</span>
-                          <span class="text-[10px] text-muted-foreground uppercase font-black">{h.year}</span>
-                      </div>
+                <TableRow class={`${isPast ? "opacity-40 grayscale bg-muted/10" : ""} border-l-4 ${h.region ? "border-l-info" : "border-l-primary"}`}>
+                  <TableCell class="text-center text-xl p-4">{getHolidayIcon(h.name)}</TableCell>
+                  <TableCell class="px-6">
+                      <span class="font-bold text-base">{h.name}</span>
                   </TableCell>
-                  <TableCell class="whitespace-nowrap font-medium">{formatDateFull(h.date)}</TableCell>
-                  <TableCell class="text-sm">{h.day}</TableCell>
+                  <TableCell class="whitespace-nowrap font-medium text-muted-foreground">{formatDateFull(h.date)}</TableCell>
+                  <TableCell class="text-sm font-semibold">{h.day}</TableCell>
                   <TableCell>
                       {h.region ? (
-                          <Badge variant="outline" class="text-[10px] bg-blue-50/50 dark:bg-blue-900/20">{h.region}</Badge>
+                          <div class="flex items-center gap-2">
+                              <div class="w-2 h-2 rounded-full bg-info shadow"></div>
+                              <span class="text-xs font-black uppercase text-info tracking-wider">{h.region}</span>
+                          </div>
                       ) : (
-                          <Badge variant="primary" soft class="text-[10px] uppercase font-bold tracking-tighter">National</Badge>
+                          <div class="flex items-center gap-2">
+                              <div class="w-2 h-2 rounded-full bg-primary shadow"></div>
+                              <span class="text-xs font-black uppercase text-primary tracking-wider font-sans">National</span>
+                          </div>
                       )}
                   </TableCell>
-                  <TableCell class="text-right whitespace-nowrap">
+                  <TableCell class="text-right whitespace-nowrap px-6">
                     {isToday ? (
-                        <Badge variant="error" class="animate-pulse">Today!</Badge>
+                        <Badge variant="error" class="animate-pulse shadow-sm">Today!</Badge>
                     ) : isPast ? (
-                        <span class="text-[10px] font-bold text-muted-foreground uppercase italic px-3 py-1 bg-muted rounded">Past</span>
+                        <span class="text-[9px] font-black text-muted-foreground uppercase tracking-widest px-2 py-0.5 border rounded-sm bg-muted/20">Past</span>
                     ) : (
-                        <Badge variant="primary" soft>{days} days to go</Badge>
+                        <Badge variant="primary" soft class="font-bold border border-primary/10">{days}d away</Badge>
+                    )}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+
+            {/* 2027 Separator */}
+            <TableRow class="bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 border-y-2 border-neutral-300 dark:border-neutral-700 select-none">
+                <TableCell colspan="6" class="py-4 px-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl font-black text-foreground">2027</span>
+                        <div class="h-[2px] flex-1 bg-neutral-300 dark:bg-neutral-700"></div>
+                        <Badge variant="secondary" size="lg" class="font-black">NEXT YEAR</Badge>
+                    </div>
+                </TableCell>
+            </TableRow>
+
+            {holidays2027.map((h) => {
+              const dateToCompare = h.mondayised || h.date;
+              const days = daysUntil(dateToCompare);
+              const isPast = days < 0;
+              const isToday = days === 0;
+
+              return (
+                <TableRow class={`${isPast ? "opacity-30 grayscale" : ""} border-l-4 ${h.region ? "border-l-info" : "border-l-primary"}`}>
+                  <TableCell class="text-center text-xl p-4">{getHolidayIcon(h.name)}</TableCell>
+                  <TableCell class="px-6">
+                      <span class="font-bold text-base">{h.name}</span>
+                  </TableCell>
+                  <TableCell class="whitespace-nowrap font-medium text-muted-foreground">{formatDateFull(h.date)}</TableCell>
+                  <TableCell class="text-sm font-semibold">{h.day}</TableCell>
+                  <TableCell>
+                      {h.region ? (
+                          <div class="flex items-center gap-2">
+                              <div class="w-2 h-2 rounded-full bg-info shadow"></div>
+                              <span class="text-xs font-black uppercase text-info tracking-wider">{h.region}</span>
+                          </div>
+                      ) : (
+                          <div class="flex items-center gap-2">
+                              <div class="w-2 h-2 rounded-full bg-primary shadow"></div>
+                              <span class="text-xs font-black uppercase text-primary tracking-wider">National</span>
+                          </div>
+                      )}
+                  </TableCell>
+                  <TableCell class="text-right whitespace-nowrap px-6">
+                    {isToday ? (
+                        <Badge variant="error" class="shadow-sm">Today!</Badge>
+                    ) : isPast ? (
+                        <span class="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Past</span>
+                    ) : (
+                        <Badge variant="secondary" soft class="font-bold">{days}d away</Badge>
                     )}
                   </TableCell>
                 </TableRow>
@@ -91,12 +156,15 @@ const allHolidays = [
       </div>
     </Card>
 
-    <div class="p-4 bg-muted/30 rounded-2xl border border-dashed flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
-        <p class="text-muted-foreground italic">Note: Regional anniversaries are specific to each province.</p>
-        <div class="flex gap-4">
-            <div class="flex items-center gap-2"><div class="w-3 h-3 bg-primary rounded-full"></div><span>2026</span></div>
-            <div class="flex items-center gap-2"><div class="w-3 h-3 bg-secondary rounded-full"></div><span>2027</span></div>
+    <div class="p-6 bg-info/5 rounded-3xl border-2 border-info/10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-white dark:bg-neutral-800 rounded-2xl flex items-center justify-center text-2xl shadow-sm border border-info/20">🔄</div>
+            <div>
+                <p class="font-bold text-sm">Mondayisation Rules</p>
+                <p class="text-xs text-muted-foreground">If a holiday falls on a weekend, it is observed on the next Monday.</p>
+            </div>
         </div>
+        <a href={`${import.meta.env.BASE_URL}/guide`} class="text-sm font-black text-info hover:underline uppercase tracking-tighter">View Detailed Guide ↗</a>
     </div>
   </div>
 </Layout>
