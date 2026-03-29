@@ -1,43 +1,60 @@
-# Astro Starter Kit: Minimal
+# 🇳🇿 NZ Public Holidays — Astro + StarWind UI
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Your complete guide to public holidays in Aotearoa New Zealand. Blazing fast informational site updated for 2026–2027.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+🌐 **Live site:** [https://juancruzlunatech.github.io/Public_Holidays_NZ/](https://juancruzlunatech.github.io/Public_Holidays_NZ/)
+
+---
+
+## ✨ Features
+- **Modern UI**: Built with [Astro](https://astro.build/) and [StarWind UI](https://starwind.dev/).
+- **Dynamic Routing**: Automatic pages for 2026 and 2027 holidays.
+- **Countdown**: Real-time ticker for the next national holiday.
+- **Dark Mode**: Integrated sleek dark mode toggle.
+- **Mobile Responsive**: Perfect performance on all devices.
+- **SEO Optimized**: Meta tags, structured data, and clean architecture.
+
+---
 
 ## 🚀 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
-
 ```text
 /
-├── public/
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── components/    # StarWind UI components (buttons, cards, etc.)
+│   ├── layouts/       # Main layout wrapper
+│   ├── lib/           # Holiday data & helper functions
+│   ├── pages/         # Site pages (Home, Holidays, Guide)
+│   └── styles/        # Global CSS + Tailwind config
+├── public/            # Static assets (favicons)
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
+---
 
 ## 🧞 Commands
 
-All commands are run from the root of the project, from a terminal:
+All commands are run from the root:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+| Command | Action |
+| :--- | :--- |
+| `npm install` | Installs dependencies |
+| `npm run dev` | Starts local dev server |
+| `npm run build` | Builds for production to `./dist/` |
+| `npm run preview` | Previews the build before deploy |
 
-## 👀 Want to learn more?
+---
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 🛠️ Deployment
+
+This project uses **GitHub Actions** to automatically deploy to GitHub Pages.
+1. All changes pushed to `main` trigger the build.
+2. The site is hosted under the `base` path: `/Public_Holidays_NZ/`.
+
+**Note:** Ensure your GitHub Pages settings are set to "GitHub Actions" as the source.
+
+---
+
+## ⚖️ Data Sources
+- [Employment New Zealand — Public Holidays](https://www.employment.govt.nz/leave-and-holidays/public-holidays/)
+- [NZ Government — Public holidays and work](https://www.govt.nz/browse/work/public-holidays-and-work/)
