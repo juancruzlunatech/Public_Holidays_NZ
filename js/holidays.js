@@ -4,19 +4,7 @@
 
 const HOLIDAYS_DATA = {
   national: {
-    2025: [
-      { name: "New Year's Day", date: "2025-01-01", day: "Wednesday", type: "national" },
-      { name: "Day after New Year's Day", date: "2025-01-02", day: "Thursday", type: "national" },
-      { name: "Waitangi Day", date: "2025-02-06", day: "Thursday", type: "national" },
-      { name: "Good Friday", date: "2025-04-18", day: "Friday", type: "national" },
-      { name: "Easter Monday", date: "2025-04-21", day: "Monday", type: "national" },
-      { name: "Anzac Day", date: "2025-04-25", day: "Friday", type: "national" },
-      { name: "King's Birthday", date: "2025-06-02", day: "Monday", type: "national" },
-      { name: "Matariki", date: "2025-06-20", day: "Friday", type: "national" },
-      { name: "Labour Day", date: "2025-10-27", day: "Monday", type: "national" },
-      { name: "Christmas Day", date: "2025-12-25", day: "Thursday", type: "national" },
-      { name: "Boxing Day", date: "2025-12-26", day: "Friday", type: "national" },
-    ],
+
     2026: [
       { name: "New Year's Day", date: "2026-01-01", day: "Thursday", type: "national" },
       { name: "Day after New Year's Day", date: "2026-01-02", day: "Friday", type: "national" },
@@ -45,20 +33,7 @@ const HOLIDAYS_DATA = {
     ],
   },
   regional: {
-    2025: [
-      { name: "Wellington Anniversary", date: "2025-01-20", day: "Monday", region: "Wellington" },
-      { name: "Auckland Anniversary", date: "2025-01-27", day: "Monday", region: "Auckland" },
-      { name: "Nelson Anniversary", date: "2025-02-03", day: "Monday", region: "Nelson" },
-      { name: "Taranaki Anniversary", date: "2025-03-10", day: "Monday", region: "Taranaki" },
-      { name: "Otago Anniversary", date: "2025-03-24", day: "Monday", region: "Otago" },
-      { name: "Southland Anniversary", date: "2025-04-22", day: "Tuesday", region: "Southland" },
-      { name: "South Canterbury Anniversary", date: "2025-09-22", day: "Monday", region: "South Canterbury" },
-      { name: "Hawke's Bay Anniversary", date: "2025-10-24", day: "Friday", region: "Hawke's Bay" },
-      { name: "Marlborough Anniversary", date: "2025-11-03", day: "Monday", region: "Marlborough" },
-      { name: "Canterbury Anniversary", date: "2025-11-14", day: "Friday", region: "Canterbury" },
-      { name: "Chatham Islands Anniversary", date: "2025-12-01", day: "Monday", region: "Chatham Islands" },
-      { name: "Westland Anniversary", date: "2025-12-01", day: "Monday", region: "Westland" },
-    ],
+
     2026: [
       { name: "Wellington Anniversary", date: "2026-01-19", day: "Monday", region: "Wellington" },
       { name: "Auckland Anniversary", date: "2026-01-26", day: "Monday", region: "Auckland" },
@@ -89,11 +64,7 @@ const HOLIDAYS_DATA = {
     ],
   },
   other: {
-    2025: [
-      { name: "Daylight Saving ends", date: "2025-04-06", day: "Sunday", type: "observance" },
-      { name: "Easter Tuesday (Education sector)", date: "2025-04-22", day: "Tuesday", type: "observance" },
-      { name: "Daylight Saving starts", date: "2025-09-28", day: "Sunday", type: "observance" },
-    ],
+
     2026: [
       { name: "Daylight Saving ends", date: "2026-04-05", day: "Sunday", type: "observance" },
       { name: "Easter Tuesday (Education sector)", date: "2026-04-07", day: "Tuesday", type: "observance" },
