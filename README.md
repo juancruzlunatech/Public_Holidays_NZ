@@ -1,4 +1,4 @@
-# 🇳🇿 NZ Public Holidays — Astro + StarWind UI
+# NZ Public Holidays — Astro + StarWind UI
 
 Your complete guide to public holidays in Aotearoa New Zealand. Blazing fast informational site updated for 2026–2027.
 
