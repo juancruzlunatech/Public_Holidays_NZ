@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/starwind/card/Card.astro';
+import CardContent from '../components/starwind/card/CardContent.astro';
+
+---
+
+<Layout title="Privacy Policy" description="Privacy policy for NZ Public Holidays — how we handle your data.">
+  <div class="max-w-3xl mx-auto py-12 space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-4xl font-black">Privacy Policy</h1>
+        <p class="text-muted-foreground">Last Updated: March 2026</p>
+    </div>
+
+    <Card class="p-8 prose prose-slate dark:prose-invert max-w-none shadow-sm">
+      <CardContent>
+        <h2>1. Information We Collect</h2>
+        <p>At NZ Public Holidays (nzpublicholidays.com), we do not collect any personal information from our visitors. We do not use cookies for tracking personal identity. We may use third-party tools (like Google AdSense or Analytics) that may collect non-identifiable usage data to improve the user experience.</p>
+
+        <h2>2. Third-Party Partners</h2>
+        <p>This site may use Google AdSense to display advertisements. Google uses cookies to serve ads based on your prior visits to this website or other websites. You may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank">Google Ad Settings</a>.</p>
+
+        <h2>3. Data Usage</h2>
+        <p>Any data collected by third-party services is used solely for traffic analysis and advertisement optimization.</p>
+
+        <h2>4. Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, you can contact us at: info@nzpublicholidays.com</p>
+      </CardContent>
+    </Card>
+  </div>
+</Layout>

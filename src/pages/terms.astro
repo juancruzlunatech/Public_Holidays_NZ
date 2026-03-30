@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/starwind/card/Card.astro';
+import CardContent from '../components/starwind/card/CardContent.astro';
+
+---
+
+<Layout title="Terms of Service" description="Terms and conditions for using nzpublicholidays.com.">
+  <div class="max-w-3xl mx-auto py-12 space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-4xl font-black">Terms of Service</h1>
+        <p class="text-muted-foreground">Last Updated: March 2026</p>
+    </div>
+
+    <Card class="p-8 prose prose-slate dark:prose-invert max-w-none shadow-sm">
+      <CardContent>
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing nzpublicholidays.com, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
+
+        <h2>2. Use of Content</h2>
+        <p>All holiday data and information on this site are for informational purposes only. While we strive for 100% accuracy, we are not responsible for any changes in holiday dates officially announced by the government of New Zealand.</p>
+
+        <h2>3. Disclaimer</h2>
+        <p>The materials on this website are provided on an 'as is' basis. NZ Public Holidays makes no warranties, expressed or implied, and hereby disclaims all other warranties including without limitation, implied warranties or conditions of merchantability.</p>
+
+        <h2>4. Governing Law</h2>
+        <p>These terms and conditions are governed by the laws of New Zealand.</p>
+      </CardContent>
+    </Card>
+  </div>
+</Layout>
