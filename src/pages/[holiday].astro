@@ -1,0 +1,108 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { HOLIDAYS_DATA, formatDateFull } from '../lib/holidays';
+import { buildHolidayWebPageSchema, getHolidayPageBySlug } from '../lib/seo';
+
+export function getStaticPaths() {
+  return [
+    { params: { holiday: 'new-years-day' } },
+    { params: { holiday: 'day-after-new-years-day' } },
+    { params: { holiday: 'waitangi-day' } },
+    { params: { holiday: 'good-friday' } },
+    { params: { holiday: 'easter-monday' } },
+    { params: { holiday: 'anzac-day' } },
+    { params: { holiday: 'kings-birthday' } },
+    { params: { holiday: 'matariki' } },
+    { params: { holiday: 'labour-day' } },
+    { params: { holiday: 'christmas-day' } },
+    { params: { holiday: 'boxing-day' } }
+  ];
+}
+
+const { holiday } = Astro.params;
+const holidayPage = getHolidayPageBySlug(holiday || '');
+
+if (!holidayPage) {
+  throw new Error('Holiday page not found');
+}
+
+const entries2026 = HOLIDAYS_DATA.national[2026].filter((item) => item.name === holidayPage.name);
+const entries2027 = HOLIDAYS_DATA.national[2027].filter((item) => item.name === holidayPage.name);
+
+const title = 'NZ Public Holidays 2026 | Complete Calendar New Zealand';
+const description = `${holidayPage.name} in New Zealand public holidays, with NZ holidays 2026 date, mondayisation rules, and what businesses close.`;
+const path = `/${holidayPage.slug}`;
+const pageSchema = buildHolidayWebPageSchema(path, title, description);
+
+const eventSchema = [
+  ...entries2026.map((entry) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: entry.name,
+    startDate: entry.date,
+    location: { '@type': 'Place', name: 'New Zealand' },
+    description: `${entry.name} public holiday in New Zealand for 2026.`,
+    url: `https://www.nzpublicholidays.com/${holidayPage.slug}`
+  })),
+  ...entries2027.map((entry) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: entry.name,
+    startDate: entry.date,
+    location: { '@type': 'Place', name: 'New Zealand' },
+    description: `${entry.name} public holiday in New Zealand for 2027.`,
+    url: `https://www.nzpublicholidays.com/${holidayPage.slug}`
+  }))
+];
+---
+
+<Layout title={title} description={description} canonicalPath={path} jsonLd={[pageSchema, ...eventSchema]}>
+  <article class="max-w-4xl mx-auto space-y-8">
+    <header class="space-y-3">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground font-bold">National Holiday Profile</p>
+      <h1 class="text-4xl md:text-5xl font-black tracking-tight">{holidayPage.name}</h1>
+      <p class="text-muted-foreground max-w-3xl">{description}</p>
+    </header>
+
+    <section class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border p-5 bg-card">
+        <h2 class="font-black text-lg mb-2">2026 Date</h2>
+        {entries2026.map((entry) => (
+          <p class="text-sm text-muted-foreground">
+            {formatDateFull(entry.date)} {entry.mondayised ? `(observed ${formatDateFull(entry.mondayised)})` : ''}
+          </p>
+        ))}
+      </div>
+      <div class="rounded-2xl border p-5 bg-card">
+        <h2 class="font-black text-lg mb-2">2027 Date</h2>
+        {entries2027.map((entry) => (
+          <p class="text-sm text-muted-foreground">
+            {formatDateFull(entry.date)} {entry.mondayised ? `(observed ${formatDateFull(entry.mondayised)})` : ''}
+          </p>
+        ))}
+      </div>
+    </section>
+
+    <section class="rounded-3xl border p-6 bg-card space-y-3">
+      <h2 class="text-2xl font-black">Historical Background</h2>
+      <p class="text-muted-foreground leading-relaxed">{holidayPage.history}</p>
+    </section>
+
+    <section class="rounded-3xl border p-6 bg-card space-y-3">
+      <h2 class="text-2xl font-black">How It Is Celebrated</h2>
+      <p class="text-muted-foreground leading-relaxed">{holidayPage.celebration}</p>
+    </section>
+
+    <section class="rounded-3xl border p-6 bg-card space-y-3">
+      <h2 class="text-2xl font-black">Mondayisation Rules</h2>
+      <p class="text-muted-foreground leading-relaxed">{holidayPage.mondayisation}</p>
+    </section>
+
+    <section class="rounded-3xl border p-6 bg-card space-y-3">
+      <h2 class="text-2xl font-black">What Businesses And Services Close</h2>
+      <p class="text-muted-foreground leading-relaxed">{holidayPage.closures}</p>
+    </section>
+
+    <p class="text-sm">View all dates in <a href="/holidays/2026" class="font-bold text-primary hover:underline underline-offset-4">Holidays 2026</a> and <a href="/holidays/2027" class="font-bold text-primary hover:underline underline-offset-4">Holidays 2027</a>.</p>
+  </article>
+</Layout>

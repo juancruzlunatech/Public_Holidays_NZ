@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { buildHolidayWebPageSchema } from '../../lib/seo';
+
+const title = 'NZ Public Holidays 2026 | Complete Calendar New Zealand';
+const description = "What's open on Waitangi Day in New Zealand, including NZ holidays 2026 service availability, retail hours, and travel planning tips.";
+const pageSchema = buildHolidayWebPageSchema('/guide/whats-open-on-waitangi-day', title, description);
+---
+
+<Layout title={title} description={description} canonicalPath="/guide/whats-open-on-waitangi-day" jsonLd={pageSchema}>
+  <article class="max-w-3xl mx-auto space-y-6">
+    <h1 class="text-4xl font-black">What's open on Waitangi Day?</h1>
+    <p class="text-muted-foreground">
+      Waitangi Day is a national public holiday in New Zealand. Many government services and office-based businesses are closed,
+      while selected retail, cafes, and transport services continue with holiday schedules.
+    </p>
+    <h2 class="text-2xl font-bold">Usually closed or limited</h2>
+    <p class="text-muted-foreground">Government offices, most schools, and some professional services are generally closed on the day.</p>
+    <h2 class="text-2xl font-bold">Often open</h2>
+    <p class="text-muted-foreground">Hospitals, emergency services, pharmacies, fuel stations, and many hospitality venues usually remain open.</p>
+    <h2 class="text-2xl font-bold">Planning tip</h2>
+    <p class="text-muted-foreground">Always check local opening hours in advance because staffing and public holiday surcharges can vary by location and business type.</p>
+    <p class="text-sm">Back to the <a href="/guide" class="font-bold text-primary hover:underline underline-offset-4">holiday guide</a>.</p>
+  </article>
+</Layout>

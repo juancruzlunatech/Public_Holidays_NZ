@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { buildHolidayWebPageSchema } from '../../lib/seo';
+
+const title = 'NZ Public Holidays 2026 | Complete Calendar New Zealand';
+const description = 'How mondayisation works for New Zealand public holidays, including NZ holidays 2026 transfer rules for Waitangi Day and Anzac Day.';
+const pageSchema = buildHolidayWebPageSchema('/guide/how-mondayisation-works-nz', title, description);
+---
+
+<Layout title={title} description={description} canonicalPath="/guide/how-mondayisation-works-nz" jsonLd={pageSchema}>
+  <article class="max-w-3xl mx-auto space-y-6">
+    <h1 class="text-4xl font-black">How mondayisation works in NZ</h1>
+    <p class="text-muted-foreground">
+      Mondayisation is the public holiday transfer rule in New Zealand. If certain holidays fall on Saturday or Sunday,
+      eligible employees can observe the holiday on Monday (or Tuesday for New Year sequence cases).
+    </p>
+    <h2 class="text-2xl font-bold">Which holidays can be transferred?</h2>
+    <p class="text-muted-foreground">Waitangi Day and Anzac Day are mondayised when they fall on weekends. New Year and Christmas-related holidays also have transfer mechanics.</p>
+    <h2 class="text-2xl font-bold">Who receives the mondayised day?</h2>
+    <p class="text-muted-foreground">Eligibility depends on whether the holiday is an otherwise working day for the employee. Employment agreements and payroll settings matter.</p>
+    <h2 class="text-2xl font-bold">Why it matters</h2>
+    <p class="text-muted-foreground">Mondayisation affects leave planning, staffing, and payroll compliance. Check your region and contract terms before scheduling shifts.</p>
+    <p class="text-sm">Back to the <a href="/guide" class="font-bold text-primary hover:underline underline-offset-4">holiday guide</a>.</p>
+  </article>
+</Layout>

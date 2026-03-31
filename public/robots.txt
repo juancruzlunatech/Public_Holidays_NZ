@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nzpublicholidays.com/sitemap-index.xml
+Sitemap: https://www.nzpublicholidays.com/sitemap.xml

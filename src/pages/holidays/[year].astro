@@ -12,6 +12,7 @@ import TableRow from '../../components/starwind/table/TableRow.astro';
 import TableHead from '../../components/starwind/table/TableHead.astro';
 import TableCell from '../../components/starwind/table/TableCell.astro';
 import { HOLIDAYS_DATA, formatDate, formatDateFull, daysUntil, getHolidayIcon } from '../../lib/holidays';
+import { buildHolidayWebPageSchema, buildNationalHolidayEventSchema, getHolidayPathByName } from '../../lib/seo';
 
 export function getStaticPaths() {
   return [
@@ -26,9 +27,14 @@ const y = parseInt(year);
 const national = HOLIDAYS_DATA.national[y] || [];
 const regional = HOLIDAYS_DATA.regional[y] || [];
 const other = HOLIDAYS_DATA.other[y] || [];
+
+const title = `NZ Public Holidays ${year} | Complete Calendar New Zealand`;
+const description = `New Zealand public holidays and NZ holidays ${year}, including Waitangi Day, Matariki, mondayisation, and regional anniversary dates.`;
+const pageSchema = buildHolidayWebPageSchema(`/holidays/${year}`, title, description);
+const eventSchema = buildNationalHolidayEventSchema(y);
 ---
 
-<Layout title={`NZ Public Holidays ${year}`}>
+<Layout title={title} description={description} canonicalPath={`/holidays/${year}`} jsonLd={[pageSchema, ...eventSchema]}>
   <div class="space-y-12">
     <div class="text-center space-y-4">
         <h1 class="text-2xl md:text-5xl font-black">NZ Public Holidays {year}</h1>
@@ -57,7 +63,11 @@ const other = HOLIDAYS_DATA.other[y] || [];
                 return (
                   <TableRow class={isPast ? "opacity-50" : ""}>
                     <TableCell class="text-center text-xl">{getHolidayIcon(h.name)}</TableCell>
-                    <TableCell class="font-bold">{h.name}</TableCell>
+                    <TableCell class="font-bold">
+                      <a href={getHolidayPathByName(h.name) || '#'} class="hover:text-primary underline-offset-4 hover:underline">
+                        {h.name}
+                      </a>
+                    </TableCell>
                     <TableCell>{formatDate(h.date)}</TableCell>
                     <TableCell>{h.day}</TableCell>
                     <TableCell>{h.mondayised ? formatDateFull(h.mondayised) : 'Standard'}</TableCell>

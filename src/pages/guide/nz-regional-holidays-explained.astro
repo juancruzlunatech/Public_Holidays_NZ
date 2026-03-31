@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { buildHolidayWebPageSchema } from '../../lib/seo';
+
+const title = 'NZ Public Holidays 2026 | Complete Calendar New Zealand';
+const description = 'NZ regional holidays explained: anniversary days, eligibility by location, and how regional dates differ from New Zealand public holidays.';
+const pageSchema = buildHolidayWebPageSchema('/guide/nz-regional-holidays-explained', title, description);
+---
+
+<Layout title={title} description={description} canonicalPath="/guide/nz-regional-holidays-explained" jsonLd={pageSchema}>
+  <article class="max-w-3xl mx-auto space-y-6">
+    <h1 class="text-4xl font-black">NZ regional holidays explained</h1>
+    <p class="text-muted-foreground">
+      Regional anniversary days are public holidays tied to historic provinces, not nationwide statutory dates.
+      Auckland, Wellington, Canterbury, and other regions each observe different anniversary holidays.
+    </p>
+    <h2 class="text-2xl font-bold">How regional dates are set</h2>
+    <p class="text-muted-foreground">Most are observed on a nearby Monday or Friday rather than the exact anniversary date, which keeps a practical long-weekend pattern.</p>
+    <h2 class="text-2xl font-bold">Who gets the day off?</h2>
+    <p class="text-muted-foreground">Eligibility depends on where you work, your employment contract, and whether that day is an otherwise working day for you.</p>
+    <h2 class="text-2xl font-bold">Why employers should care</h2>
+    <p class="text-muted-foreground">Regional holidays affect rostering, payroll rates, and leave accounting, especially for teams operating across multiple cities.</p>
+    <p class="text-sm">Back to the <a href="/guide" class="font-bold text-primary hover:underline underline-offset-4">holiday guide</a>.</p>
+  </article>
+</Layout>

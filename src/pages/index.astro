@@ -9,6 +9,7 @@ import TableRow from '../components/starwind/table/TableRow.astro';
 import TableHead from '../components/starwind/table/TableHead.astro';
 import TableCell from '../components/starwind/table/TableCell.astro';
 import { HOLIDAYS_DATA, formatDateFull, daysUntil, getHolidayIcon } from '../lib/holidays';
+import { buildHolidayWebPageSchema, getHolidayPathByName, SITE_URL } from '../lib/seo';
 
 const holidays2026 = [
   ...HOLIDAYS_DATA.national[2026].map(h => ({ ...h, year: 2026 })),
@@ -20,9 +21,26 @@ const holidays2027 = [
   ...HOLIDAYS_DATA.regional[2027].map(h => ({ ...h, year: 2027 })),
 ].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
+const title = 'NZ Public Holidays 2026 | Complete Calendar New Zealand';
+const description = 'New Zealand public holidays calendar with NZ holidays 2026, Waitangi Day, Matariki, mondayisation rules, and 2027 dates.';
+
+const homeWebsiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'NZ Public Holidays',
+  url: `${SITE_URL}/`,
+  description,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${SITE_URL}/guide?query={search_term_string}`,
+    'query-input': 'required name=search_term_string'
+  }
+};
+
+const homePageSchema = buildHolidayWebPageSchema('/', title, description);
 ---
 
-<Layout title="NZ Public Holidays 2026-2027 Listing">
+<Layout title={title} description={description} canonicalPath="/" jsonLd={[homeWebsiteSchema, homePageSchema]}>
   <div class="max-w-5xl mx-auto space-y-6">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4">
         <div>
@@ -71,7 +89,13 @@ const holidays2027 = [
                 <TableRow class={`${isPast ? "opacity-40 grayscale bg-muted/10" : ""} border-l-4 ${h.region ? "border-l-info" : "border-l-primary"}`}>
                   <TableCell class="text-center text-xl p-4">{getHolidayIcon(h.name)}</TableCell>
                   <TableCell class="px-6">
-                      <span class="font-bold text-base">{h.name}</span>
+                      {h.region ? (
+                        <span class="font-bold text-base">{h.name}</span>
+                      ) : (
+                        <a href={getHolidayPathByName(h.name) || '#'} class="font-bold text-base hover:text-primary underline-offset-4 hover:underline">
+                          {h.name}
+                        </a>
+                      )}
                   </TableCell>
                   <TableCell class="whitespace-nowrap font-medium text-muted-foreground">{formatDateFull(h.date)}</TableCell>
                   <TableCell class="text-sm font-semibold">{h.day}</TableCell>
@@ -122,7 +146,13 @@ const holidays2027 = [
                 <TableRow class={`${isPast ? "opacity-30 grayscale" : ""} border-l-4 ${h.region ? "border-l-info" : "border-l-primary"}`}>
                   <TableCell class="text-center text-xl p-4">{getHolidayIcon(h.name)}</TableCell>
                   <TableCell class="px-6">
-                      <span class="font-bold text-base">{h.name}</span>
+                      {h.region ? (
+                        <span class="font-bold text-base">{h.name}</span>
+                      ) : (
+                        <a href={getHolidayPathByName(h.name) || '#'} class="font-bold text-base hover:text-primary underline-offset-4 hover:underline">
+                          {h.name}
+                        </a>
+                      )}
                   </TableCell>
                   <TableCell class="whitespace-nowrap font-medium text-muted-foreground">{formatDateFull(h.date)}</TableCell>
                   <TableCell class="text-sm font-semibold">{h.day}</TableCell>
@@ -166,5 +196,15 @@ const holidays2027 = [
         </div>
         <a href={`${import.meta.env.BASE_URL}guide`} class="text-sm font-black text-info hover:underline uppercase tracking-tighter">View Detailed Guide ↗</a>
     </div>
+
+    <section class="rounded-3xl border bg-card p-6 md:p-8 shadow-sm space-y-4">
+      <h2 class="text-2xl font-black tracking-tight">How Public Holidays Work In New Zealand</h2>
+      <p class="text-muted-foreground leading-relaxed">
+        New Zealand has a mix of nationwide statutory holidays and regional anniversary days, which means not every public holiday is observed by every worker in the same way. National dates like Waitangi Day, Anzac Day, Matariki, Labour Day, and Christmas Day apply across the country, while anniversary holidays vary by region such as Auckland, Wellington, Canterbury, and Southland. The holiday system also includes transfer rules called mondayisation, so when some holidays fall on a weekend they are officially observed on a following weekday for eligible employees. In practice, this affects payroll, leave calculations, and opening hours for shops and services. Some days such as Good Friday, Easter Sunday, and Christmas Day also come with stricter trading rules for retail businesses. This NZ holidays 2026 calendar helps households, employers, and travelers plan ahead with clear dates, observed shifts, and practical guidance on what is usually open or closed.
+      </p>
+      <p class="text-sm">
+        Need a deeper breakdown? Read the <a href="/guide" class="font-bold text-primary hover:underline underline-offset-4">complete holiday guide</a> and individual pages for each national holiday.
+      </p>
+    </section>
   </div>
 </Layout>

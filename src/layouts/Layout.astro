@@ -1,14 +1,34 @@
 ---
 import '../styles/starwind.css';
 import Button from '../components/starwind/button/Button.astro';
+import { buildNationalHolidayEventSchema, SITE_URL } from '../lib/seo';
 
 interface Props {
   title: string;
   description?: string;
+  canonicalPath?: string;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
-const { title, description = "Complete guide to New Zealand public holidays for 2026 and 2027." } = Astro.params as unknown as Props || Astro.props;
+const {
+  title,
+  description = 'New Zealand public holidays calendar with NZ holidays 2026, Waitangi Day, Matariki, and official mondayisation rules.',
+  canonicalPath,
+  ogImage = '/favicon.svg',
+  jsonLd
+} = Astro.props as Props;
+
 const currentYear = new Date().getFullYear();
+const pathname = canonicalPath || Astro.url.pathname;
+const canonicalUrl = new URL(pathname, SITE_URL).toString();
+const ogImageUrl = new URL(ogImage, SITE_URL).toString();
+const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || 'REPLACE_WITH_GOOGLE_SITE_VERIFICATION_TOKEN';
+
+const structuredData: Array<Record<string, unknown>> = [
+  ...buildNationalHolidayEventSchema(2026),
+  ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])
+];
 ---
 
 <!DOCTYPE html>
@@ -16,26 +36,34 @@ const currentYear = new Date().getFullYear();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}favicon.png`} />
     <meta name="generator" content={Astro.generator} />
-    <title>{title} | PublicHolidaysNZ</title>
+
+    <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "NZ Public Holidays",
-        "url": "https://nzpublicholidays.com/",
-        "description": "The complete guide to public holidays in New Zealand for 2026 and 2027.",
-        "publisher": {
-          "@type": "Organization",
-          "name": "NZ Public Holidays"
-        }
-      }
-    </script>
+    <meta name="google-site-verification" content={googleVerification} />
+
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NZ Public Holidays" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    {structuredData.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
   </head>
   <body class="min-h-screen bg-background text-foreground font-sans">
     <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -55,7 +83,8 @@ const currentYear = new Date().getFullYear();
             🌙 Mode
           </Button>
           <button class="md:hidden p-2" aria-label="Toggle Menu">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+          </button>
         </div>
       </div>
     </header>
@@ -70,7 +99,7 @@ const currentYear = new Date().getFullYear();
           <div>
             <h3 class="font-bold text-lg mb-4">🇳🇿 NZ Public Holidays</h3>
             <p class="text-muted-foreground text-sm leading-relaxed">
-              Your complete guide to public holidays in Aotearoa New Zealand. Blazing fast informational site updated for 2026–2027.
+              Your complete guide to public holidays in Aotearoa New Zealand. Blazing fast informational site updated for 2026-2027.
             </p>
           </div>
           <div>
@@ -92,8 +121,8 @@ const currentYear = new Date().getFullYear();
         <div class="mt-12 pt-8 border-t text-center text-sm text-muted-foreground flex flex-col md:flex-row items-center justify-between gap-4">
           <p>© {currentYear} NZ Public Holidays. Built with Astro & StarWind UI.</p>
           <div class="flex gap-6">
-              <a href={`${import.meta.env.BASE_URL}privacy`} class="hover:text-primary transition-colors underline-offset-4 hover:underline">Privacy Policy</a>
-              <a href={`${import.meta.env.BASE_URL}terms`} class="hover:text-primary transition-colors underline-offset-4 hover:underline">Terms of Service</a>
+            <a href={`${import.meta.env.BASE_URL}privacy`} class="hover:text-primary transition-colors underline-offset-4 hover:underline">Privacy Policy</a>
+            <a href={`${import.meta.env.BASE_URL}terms`} class="hover:text-primary transition-colors underline-offset-4 hover:underline">Terms of Service</a>
           </div>
         </div>
       </div>
