@@ -122,24 +122,7 @@ export function getHolidayPathByName(name: string) {
 export function buildNationalHolidayEventSchema(year = 2026) {
   const national = HOLIDAYS_DATA.national[year] || [];
 
-  return national.map((holiday) => {
-    const slug = getHolidaySlugByName(holiday.name);
-    const eventUrl = slug ? `${SITE_URL}/${slug}` : `${SITE_URL}/holidays/${year}`;
-    const eventDescription = HOLIDAYS_DATA.descriptions[holiday.name] || `New Zealand public holiday: ${holiday.name}.`;
-
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'Event',
-      name: holiday.name,
-      startDate: holiday.date,
-      location: {
-        '@type': 'Place',
-        name: 'New Zealand'
-      },
-      description: eventDescription,
-      url: eventUrl
-    };
-  });
+  return national.map((holiday) => buildHolidayEventSchema(holiday.name, holiday.date, year));
 }
 
 export function buildHolidayWebPageSchema(pathname: string, title: string, description: string) {
@@ -149,5 +132,42 @@ export function buildHolidayWebPageSchema(pathname: string, title: string, descr
     name: title,
     description,
     url: `${SITE_URL}${pathname}`
+  };
+}
+
+export function buildHolidayEventSchema(name: string, startDate: string, year: number) {
+  const slug = getHolidaySlugByName(name);
+  const eventUrl = slug ? `${SITE_URL}/${slug}` : `${SITE_URL}/holidays/${year}`;
+  const eventDescription = HOLIDAYS_DATA.descriptions[name] || `New Zealand public holiday: ${name}.`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name,
+    startDate,
+    endDate: startDate,
+    location: {
+      '@type': 'Place',
+      name: 'New Zealand',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'NZ'
+      }
+    },
+    image: `${SITE_URL}/favicon.png`,
+    organizer: {
+      '@type': 'Organization',
+      name: 'New Zealand Government',
+      url: 'https://www.govt.nz'
+    },
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'NZD',
+      availability: 'https://schema.org/InStock',
+      url: eventUrl
+    },
+    description: eventDescription,
+    url: eventUrl
   };
 }

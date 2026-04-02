@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { HOLIDAYS_DATA, formatDateFull } from '../lib/holidays';
-import { buildHolidayWebPageSchema, getHolidayPageBySlug } from '../lib/seo';
+import { buildHolidayEventSchema, buildHolidayWebPageSchema, getHolidayPageBySlug } from '../lib/seo';
 
 export function getStaticPaths() {
   return [
@@ -35,24 +35,8 @@ const path = `/${holidayPage.slug}`;
 const pageSchema = buildHolidayWebPageSchema(path, title, description);
 
 const eventSchema = [
-  ...entries2026.map((entry) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Event',
-    name: entry.name,
-    startDate: entry.date,
-    location: { '@type': 'Place', name: 'New Zealand' },
-    description: `${entry.name} public holiday in New Zealand for 2026.`,
-    url: `https://www.nzpublicholidays.com/${holidayPage.slug}`
-  })),
-  ...entries2027.map((entry) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Event',
-    name: entry.name,
-    startDate: entry.date,
-    location: { '@type': 'Place', name: 'New Zealand' },
-    description: `${entry.name} public holiday in New Zealand for 2027.`,
-    url: `https://www.nzpublicholidays.com/${holidayPage.slug}`
-  }))
+  ...entries2026.map((entry) => buildHolidayEventSchema(entry.name, entry.date, 2026)),
+  ...entries2027.map((entry) => buildHolidayEventSchema(entry.name, entry.date, 2027))
 ];
 ---
 
