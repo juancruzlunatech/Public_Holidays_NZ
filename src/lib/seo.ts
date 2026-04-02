@@ -146,6 +146,7 @@ export function buildHolidayEventSchema(name: string, startDate: string, year: n
     name,
     startDate,
     endDate: startDate,
+    eventStatus: 'https://schema.org/EventScheduled',
     location: {
       '@type': 'Place',
       name: 'New Zealand',
@@ -153,6 +154,10 @@ export function buildHolidayEventSchema(name: string, startDate: string, year: n
         '@type': 'PostalAddress',
         addressCountry: 'NZ'
       }
+    },
+    performer: {
+      '@type': 'Organization',
+      name: 'New Zealand Government'
     },
     image: `${SITE_URL}/favicon.png`,
     organizer: {
