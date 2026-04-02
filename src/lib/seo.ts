@@ -159,7 +159,7 @@ export function buildHolidayEventSchema(name: string, startDate: string, year: n
       '@type': 'Organization',
       name: 'New Zealand Government'
     },
-    image: `${SITE_URL}/favicon.png`,
+    image: `${SITE_URL}/favicon-192x192.png`,
     organizer: {
       '@type': 'Organization',
       name: 'New Zealand Government',

@@ -15,7 +15,7 @@ const {
   title,
   description = 'New Zealand public holidays calendar with NZ holidays 2026, Waitangi Day, Matariki, and official mondayisation rules.',
   canonicalPath,
-  ogImage = '/favicon.svg',
+  ogImage = '/favicon-192x192.png',
   jsonLd
 } = Astro.props as Props;
 
@@ -43,6 +43,8 @@ const structuredData: Array<Record<string, unknown>> = [
     <meta name="google-site-verification" content={googleVerification} />
 
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
