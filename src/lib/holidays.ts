@@ -136,19 +136,21 @@ export function formatDateFull(dateStr: string) {
 
 export function daysUntil(dateStr: string) {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const holiday = new Date(dateStr + "T00:00:00");
-  const diff = Math.ceil((holiday.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+  const todayDate = new Date(todayStr + "T00:00:00Z");
+  const holidayDate = new Date(dateStr + "T00:00:00Z");
+  const diff = Math.ceil((holidayDate.getTime() - todayDate.getTime()) / (1000 * 60 * 60 * 24));
   return diff;
 }
 
 export function getNextHoliday(year: number) {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+  const todayDate = new Date(todayStr + "T00:00:00Z");
   const allNational = HOLIDAYS_DATA.national[year] || [];
   for (const h of allNational) {
     const effectiveDate = h.mondayised || h.date;
-    if (new Date(effectiveDate + "T00:00:00") >= today) {
+    if (new Date(effectiveDate + "T00:00:00Z") >= todayDate) {
       return { ...h, effectiveDate };
     }
   }

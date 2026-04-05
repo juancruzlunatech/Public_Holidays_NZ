@@ -165,13 +165,6 @@ export function buildHolidayEventSchema(name: string, startDate: string, year: n
       name: 'New Zealand Government',
       url: 'https://www.govt.nz'
     },
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'NZD',
-      availability: 'https://schema.org/InStock',
-      url: eventUrl
-    },
     description: eventDescription,
     url: eventUrl
   };
