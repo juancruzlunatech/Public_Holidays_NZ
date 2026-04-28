@@ -122,35 +122,38 @@ export function getHolidayIcon(name: string) {
   return "📅";
 }
 
+function parseDateOnly(dateStr: string) {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
 export function formatDate(dateStr: string) {
-  const date = new Date(dateStr + "T00:00:00Z");
+  const date = parseDateOnly(dateStr);
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  return `${months[date.getUTCMonth()]} ${date.getUTCDate()}`;
+  return `${months[date.getMonth()]} ${date.getDate()}`;
 }
 
 export function formatDateFull(dateStr: string) {
-  const date = new Date(dateStr + "T00:00:00Z");
+  const date = parseDateOnly(dateStr);
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  return `${date.getUTCDate()} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+  return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
 export function daysUntil(dateStr: string) {
   const today = new Date();
-  const todayStr = today.getUTCFullYear() + '-' + String(today.getUTCMonth() + 1).padStart(2, '0') + '-' + String(today.getUTCDate()).padStart(2, '0');
-  const todayDate = new Date(todayStr + "T00:00:00Z");
-  const holidayDate = new Date(dateStr + "T00:00:00Z");
-  const diff = Math.ceil((holidayDate.getTime() - todayDate.getTime()) / (1000 * 60 * 60 * 24));
+  today.setHours(0, 0, 0, 0);
+  const holidayDate = parseDateOnly(dateStr);
+  const diff = Math.ceil((holidayDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
   return diff;
 }
 
 export function getNextHoliday(year: number) {
   const today = new Date();
-  const todayStr = today.getUTCFullYear() + '-' + String(today.getUTCMonth() + 1).padStart(2, '0') + '-' + String(today.getUTCDate()).padStart(2, '0');
-  const todayDate = new Date(todayStr + "T00:00:00Z");
+  today.setHours(0, 0, 0, 0);
   const allNational = HOLIDAYS_DATA.national[year] || [];
   for (const h of allNational) {
     const effectiveDate = h.mondayised || h.date;
-    if (new Date(effectiveDate + "T00:00:00Z") >= todayDate) {
+    if (parseDateOnly(effectiveDate) >= today) {
       return { ...h, effectiveDate };
     }
   }
